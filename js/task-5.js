@@ -1,34 +1,33 @@
 class Car {
-  constructor(maxSpeed, speed, isOn, distance, price) {
-    this.maxSpeed = maxSpeed;
+  constructor(argument, speed = 0, isOn = false, distance = 0) {
+    this.maxSpeed = argument.maxSpeed;
     this.speed = speed;
     this.isOn = isOn;
     this.distance = distance;
-    this.price = price;
+    this._price = argument.price;
   }
 
-  get priice() {
+  get price() {
     return this._price;
   }
 
-  set priice(amount) {
-    this.price = amount;
+  set price(amount) {
+    this._price = amount;
   }
 
   static getSpecs(car) {
-    console.log(`maxSpeed: ${this.maxSpeed}, speed: ${this.speed}, isOn: ${this.isOn}, distance: ${this.distance}, price: ${this.price}`)
+    console.log(
+      `maxSpeed: ${car.maxSpeed}, speed: ${car.speed}, isOn: ${car.isOn}, distance: ${car.distance}, price: ${car.price}`,
+    );
   }
 
-
   turnOn() {
-
-    return this.isOn = true;
+    return (this.isOn = true);
   }
 
   turnOff() {
     this.speed = 0;
-    return this.isOn = false;
-
+    return (this.isOn = false);
   }
 
   /*
@@ -39,19 +38,13 @@ class Car {
   accelerate(value) {
     if (isNaN(this.speed)) {
       this.speed = 0;
-      // console.log(this.speed);
     }
-      console.log("da")
-      if (value < this.maxSpeed.maxSpeed) {
-        this.speed += value;
-      }
-        //   console.log("da")
-    // }
-    // else
-    //   console.log("net")
-    return this.speed
-  }
+    if (value < this.maxSpeed) {
+      this.speed += value;
+    }
 
+    return this.speed;
+  }
   /*
    * Отнимает от свойства speed полученное значение,
    * при условии что результирующая скорость не меньше нуля
@@ -60,37 +53,30 @@ class Car {
     if (this.speed > 0) {
       this.speed -= value;
     }
-    return this.speed
+    return this.speed;
   }
-
   /*
    * Добавляет в поле distance киллометраж (hours * speed),
    * но только в том случае если машина заведена!
    */
   drive(hours) {
-    this.distance = this.speed * hours
-    return this.distance
+    this.distance += this.speed * hours;
+    return this.distance;
   }
 }
 
 const mustang = new Car({ maxSpeed: 200, price: 2000 });
 
-// console.log(mustang.turnOn())
 mustang.turnOn();
 mustang.accelerate(50);
 mustang.drive(2);
-console.log(mustang.maxSpeed)
-console.log("speed = ", mustang.speed);
 
-// Car.getSpecs(mustang);
+Car.getSpecs(mustang);
 // maxSpeed: 200, speed: 50, isOn: true, distance: 100, price: 2000
 
 mustang.decelerate(20);
 mustang.drive(1);
-// mustang.turnOff();
-console.log(mustang.maxSpeed)
-// console.log(mustang.turnOff())
-console.log("speed = ", mustang.speed);
+mustang.turnOff();
 
 Car.getSpecs(mustang);
 // maxSpeed: 200, speed: 0, isOn: false, distance: 130, price: 2000
